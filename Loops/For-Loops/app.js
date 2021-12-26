@@ -33,9 +33,9 @@
 // }
 
 // Odd starting number, printing after multiplication increment times 10
-for(let i = 10; i <= 1000; i *= 10){
-    console.log(i);
-}
+// for(let i = 10; i <= 1000; i *= 10){
+//     console.log(i);
+// }
 
 // **DO NOT RUN THIS INFINITE LOOP!!!**
 // VERY BAD!!!
@@ -48,3 +48,48 @@ for(let i = 10; i <= 1000; i *= 10){
 // ================================
 // **DO NOT RUN THIS INFINITE LOOP!!!**
 // VERY BAD!!!
+
+const animals = [
+    "whale",
+    "giraffe",
+    "kangaroo",
+    "rhino",
+    "shark",
+    "leopard",
+    "frog",
+    "snake",
+    "tiger",
+    "hyena"
+]
+
+// Iterating across the array from beginning index to end
+// for (let i = 0; i < animals.length; i++) {
+//     console.log(i, animals[i])
+// }
+
+// Iterating across the array from last index (indicated by a -1) to the beginning
+// for (let i = animals.length - 1; i >= 0; i--) {
+//     console.log(i, animals[i]);
+// }
+
+// Nested loops
+// for (let i = 1; i <= 10; i++) {
+//     console.log(`i is: ${i}`);
+//     for (let j = 1; j <= 4; j++) {
+//         console.log(`   j is: ${j}`)
+//     }
+// }
+
+const seatingAssignment = [
+    ["Madisen", "Kimmy", "Trevor"],
+    ["Josh", "Becca", "Arely", "Isaac"],
+    ["Mitchell", "Kenleigh", "Mara", "Brittany"]
+];
+
+for (let i = 0; i < seatingAssignment.length; i++) {
+    const row = seatingAssignment[i];
+    console.log(`Row #${i + 1}`)
+    for (let j = 0; j < row.length; j++) {
+        console.log(row[j]);
+    }
+}
