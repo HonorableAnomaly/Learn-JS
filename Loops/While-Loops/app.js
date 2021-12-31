@@ -13,9 +13,14 @@
 // console.log("Congrats, you got the secret!!!");
 
 // break might be broken...
-let input = prompt("Hey, say something!");
-while (true) {
-  input = prompt(input);
-  if (input.toLowerCase() === "stop copying me!") break;
+// let input = prompt("Hey, say something!");
+// while (true) {
+//   input = prompt(input);
+//   if (input.toLowerCase() === "stop copying me!") break;
+// }
+// console.log("OKAY, YOU WIN!");
+
+for (let i = 0; i < 1000; i++) {
+  console.log(i);
+  if (i === 100) break;
 }
-console.log("OKAY, YOU WIN!");
