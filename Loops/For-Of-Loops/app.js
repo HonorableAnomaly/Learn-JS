@@ -1,4 +1,4 @@
-const foods = ["cheese", "apples", "beef", "tortilla"];
+// const foods = ["cheese", "apples", "beef", "tortilla"];
 
 // A for loop to iterate across array foods
 
@@ -12,11 +12,11 @@ const foods = ["cheese", "apples", "beef", "tortilla"];
 //   console.log(`See recipes at food.com/${food}`);
 // }
 
-const seatingAssignment = [
-  ["Madisen", "Kimmy", "Trevor"],
-  ["Josh", "Becca", "Arely", "Isaac"],
-  ["Mitchell", "Kenleigh", "Mara", "Brittany"],
-];
+// const seatingAssignment = [
+//   ["Madisen", "Kimmy", "Trevor"],
+//   ["Josh", "Becca", "Arely", "Isaac"],
+//   ["Mitchell", "Kenleigh", "Mara", "Brittany"],
+// ];
 
 // Copied nested for loops from For-Loops folder
 
@@ -29,8 +29,14 @@ const seatingAssignment = [
 // }
 
 // Changing the nested for loops above to nested for of loops!!!
-for (let row of seatingAssignment) {
-  for (let student of row) {
-    console.log(student);
-  }
+// for (let row of seatingAssignment) {
+//   for (let student of row) {
+//     console.log(student);
+//   }
+// }
+
+// Using a for of loop to iterate across a string!
+
+for (let char of "Deathwing") {
+  console.log(char);
 }
