@@ -14,6 +14,15 @@ const testScores = {
 // Key-value pairs are not iterable objects!
 // To iterate over key-value pairs, use this
 
-for (let student in testScores) {
-  console.log(`${student} scored ${testScores[student]}`);
+// for (let student in testScores) {
+//   console.log(`${student} scored ${testScores[student]}`);
+// }
+
+// Calling the values, summing them and then finding the average score. Not very common.
+let total = 0;
+let scores = Object.values(testScores);
+
+for (let score of scores) {
+  total += score;
 }
+console.log(total / scores.length);
