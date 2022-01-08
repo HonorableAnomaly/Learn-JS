@@ -25,9 +25,25 @@
 // console.log(msg);
 
 // var can be used to access variables inside blocks, while let and const are block scoped
-for (let i = 0; i < 5; i++) {
-  let msg = "esdangtorewnbt";
-  console.log(msg);
+// for (let i = 0; i < 5; i++) {
+//   let msg = "esdangtorewnbt";
+//   console.log(msg);
+// }
+// console.log(msg);
+// console.log(i);
+
+// nested functions can be called outside to access it, multiple times
+function bankRobbery() {
+  const heroes = ["Spiderman", "Varian Wrynn", "Wonder Woman", "Hey Arnold!"];
+  function cryForHelp() {
+    //   variables inside a nested function are not accessible to the higher functions
+    let color = purple;
+    function inner() {
+      for (let hero of heroes) {
+        console.log(`Please help us, ${hero.toUpperCase()}!`);
+      }
+    }
+    inner();
+  }
+  cryForHelp();
 }
-console.log(msg);
-console.log(i);
