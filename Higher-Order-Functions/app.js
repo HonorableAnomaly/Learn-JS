@@ -1,19 +1,52 @@
-// to call a function from a function, include it inside the function
-function callTwice(func) {
-  func();
-  func();
-}
+// // to call a function from a function, include it inside the function
+// function callTwice(func) {
+//   func();
+//   func();
+// }
 
-function callTenTimes(f) {
-  for (let i = 0; i < 10; i++) {
-    f();
+// function callTenTimes(f) {
+//   for (let i = 0; i < 10; i++) {
+//     f();
+//   }
+// }
+
+// function rollDie() {
+//   const roll = Math.floor(Math.random() * 6) + 1;
+//   console.log(roll);
+// }
+
+// // to invoke functions, leave the parentheses off because we don't want a value initiated within the call
+// callTwice(rollDie);
+
+function makeMysteryFunc() {
+  const rand = Math.random();
+  if (rand > 0.5) {
+    return function () {
+      console.log("CONGRATS, I AM A GOOD FUNCTION!");
+      console.log("YOU WIN A MILLION DOLLARS!!");
+    };
+  } else {
+    return function () {
+      alert("YOU HAVE BEEN INFECTED BY A COMPUTER VIRUS!");
+      alert("STOP TRYING TO CLOSE THIS WINDOW!!");
+      alert("STOP TRYING TO CLOSE THIS WINDOW!!");
+      alert("STOP TRYING TO CLOSE THIS WINDOW!!");
+      alert("STOP TRYING TO CLOSE THIS WINDOW!!");
+      alert("STOP TRYING TO CLOSE THIS WINDOW!!");
+    };
   }
 }
 
-function rollDie() {
-  const roll = Math.floor(Math.random() * 6) + 1;
-  console.log(roll);
+function makeBetweenFunc(min, max) {
+  return function (num) {
+    return num >= min && num <= max;
+  };
 }
 
-// to invoke functions, leave the parentheses off because we don't want a value initiated within the call
-callTwice(rollDie);
+// function isBetween(num) {
+//   return num >= 50 && num <= 100;
+// }
+
+// function isBetween2(num) {
+//   return num >= 1 && num <= 10;
+// }
