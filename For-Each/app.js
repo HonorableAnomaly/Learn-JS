@@ -19,3 +19,34 @@ const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 
 // for (let el of numbers) {
 //   console.log(el);
 // }
+
+const movies = [
+  {
+    title: "The Matrix",
+    score: 93,
+  },
+  {
+    title: "Toy Story",
+    score: 97,
+  },
+  {
+    title: "Finding Nemo",
+    score: 86,
+  },
+  {
+    title: "Lord of the Rings",
+    score: 99,
+  },
+  {
+    title: "Scream",
+    score: 73,
+  },
+  {
+    title: "Love, Actually",
+    score: 88,
+  },
+];
+
+movies.forEach(function (movie) {
+  console.log(`${movie.title} - ${movie.score}/100`);
+});
