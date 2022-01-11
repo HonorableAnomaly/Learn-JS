@@ -53,4 +53,12 @@ const movies = [
     },
   ];
 
-  
+//   Mapping movies array
+//   const newMovies = movies.map (function(movie) {
+//       return `${movie.title} - ${movie.score/10}`
+//   });
+
+// Using arrow function on movies array
+const newMovies = movies.map (movie => 
+    `${movie.title} - ${movie.score/10}`
+)
