@@ -62,3 +62,33 @@ const movies = [
 const newMovies = movies.map (movie => 
     `${movie.title} - ${movie.score/10}`
 )
+
+// Keyword this works in this syntax
+// const personOfMiddleEarth = {
+//   firstName: 'Orlando',
+//   lastName: 'Bloom',
+//   fullName: function () {
+//     return `${this.firstName} ${this.lastName}`;
+//   }
+// }
+
+// If you replace the function wth an arrow function, keyword this no longer works in a key-value pair
+// Keyword this WILL work in a setTimeout function within a key-value pair, but only if it can reference the parent const variable
+const personOfMiddleEarth = {
+  firstName: 'Orlando',
+  lastName: 'Bloom',
+  fullName: function () {
+  // fullName: () => {
+    return `${this.firstName} ${this.lastName}`;
+  },
+  // shoutName: function () {
+  //   setTimeout (function() {
+  //     console.log(this.fullName());
+  //   }, 3000)
+  // },
+  shoutName: function () {
+    setTimeout (() => {
+      console.log(`${this.fullName()}!!!`)
+    }, 3000)
+  }
+}
