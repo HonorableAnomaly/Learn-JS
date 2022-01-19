@@ -48,3 +48,70 @@ const {born: birthYear, died: deathYear = 45} = user;
 
 // A default value can be given to the new variables as they are destructured in case there is no key-value pair present
 const {province, realm, magic = 'N/A'} = user2;
+
+// The old way to combine key-value pairs in a function
+// function fullName (user) {
+//     return `${user.firstName} ${user.lastName}`;
+// };
+
+// Old way to combine key-value pairs
+// function fullName (user) {
+//     const {firstName, lastName} = user;
+//     return `${firstName} ${lastName}`;
+// };
+
+// Destructuring an object by placing it in the argument
+// You can also pass in a default value, like on lastName
+function fullName ({firstName, lastName = Jimmy}) {
+    return `${firstName} ${lastName}`;
+}
+
+
+const movies = [
+    {
+      title: "The Matrix",
+      score: 93,
+      year: 1999
+    },
+    {
+      title: "Toy Story",
+      score: 97,
+      year: 1986
+    },
+    {
+      title: "Finding Nemo",
+      score: 86,
+      year: 1938
+    },
+    {
+      title: "Lord of the Rings",
+      score: 99,
+      year: 2006
+    },
+    {
+      title: "Scream",
+      score: 73,
+      year: 2013
+    },
+    {
+      title: "Love, Actually",
+      score: 88,
+      year: 1992
+    },
+  ];
+
+// Old way to filter high score movies
+movies.filter((movie) => movie.score >= 90);
+
+// Destructuring for high scoring movies
+movies.filter(({score}) => score >= 90);
+
+// Old way to map several key-value pairs
+movies.map (movie => {
+    return `${movie.title} (${movie.year}) is rated ${movie.score}.`
+});
+
+// Destructuring to map key-value pairs
+movies.map (({title, year, score}) => {
+    return `${title} (${year}) is rated ${score}.`
+});
