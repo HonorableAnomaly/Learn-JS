@@ -18,3 +18,10 @@
 // for (let link of links) {
 //     console.log(link.href)
 // }
+
+// Selecting all anchor tags and changing their innerText
+// const allLinks = document.querySelectorAll('a');
+
+// for(let link of allLinks) {
+//     link.innerText = 'I AM A LINK!!!';
+// }
