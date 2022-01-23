@@ -13,7 +13,7 @@
 // }
 
 // Selecting all anchor tags nested in paragraphs and printing each of their hrefs
-// const links = document.querySelectorAll ('p a');
+const links = document.querySelectorAll ('p a');
 
 // for (let link of links) {
 //     console.log(link.href)
@@ -25,3 +25,10 @@
 // for(let link of allLinks) {
 //     link.innerText = 'I AM A LINK!!!';
 // }
+
+// Using JS to inline style CSS (Not great, but possible)
+for (let link of links) {
+    link.style.color = '#2a9d8f';
+    link.style.textDecorationColor = 'magenta'
+    link.style.textDecorationStyle = 'wavy'
+}
