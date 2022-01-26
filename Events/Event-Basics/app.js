@@ -18,3 +18,32 @@ btn.onmouseenter = scream;
 document.querySelector("h1").onclick = () => {
   alert("You clicked the H1!");
 };
+
+const btn3 = document.querySelector("#v3");
+
+// addEventListener allows us to plug in whatever event we want
+btn3.addEventListener("click", () => {
+  alert("CLICKED!");
+});
+
+// A function can be added instead of calling an inline
+btn3.addEventListener("click", scream);
+
+function twist() {
+  console.log("TWIST");
+}
+
+function shout() {
+  console.log("SHOUT");
+}
+
+const tasButton = document.querySelector("#tas");
+
+// These cannot be used together, because just like any property and value, it gets overwritten by the code after it. This is why addEventListener is superior.
+// tasButton.onclick = twist;
+// tasButton.onclick = shout;
+
+// addEventListeners used together on the same property.
+// once is used here to make the twist function listener event available only the first time, while retaining the second listener.
+tasButton.addEventListener("click", twist, { once: true });
+tasButton.addEventListener("click", shout);
