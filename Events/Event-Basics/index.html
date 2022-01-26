@@ -8,8 +8,11 @@
   </head>
   <body>
     <h1>Events</h1>
+    <!-- Inline onclick listener events are terrible. NEVER WRITE THESE!!! -->
     <button onclick="alert('You clicked me!'); alert('Stop clicking me!')">Click Me!</button>
 
+    <!-- This button is activated by JS from app.js. This is much better. -->
+    <button id="v2">Click Me! (2nd version)</button>
     <script src="app.js"></script>
   </body>
 </html>
