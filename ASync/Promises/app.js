@@ -76,21 +76,43 @@ const fakeRequestPromise = (url) => {
 
 
 // Chaining the variable and the request together, and adding callback hell
+// fakeRequestPromise('goodreads.com/api/fantasyreadinglist/page1')
+//     .then(() => {
+//         console.log("IT WORKED!!!");        
+//         fakeRequestPromise('goodreads.com/api/fantasyreadinglist/page2')
+//         .then(() => {
+//             console.log("IT WORKED AGAIN!!!");            
+//             fakeRequestPromise('goodreads.com/api/fantasyreadinglist/page3')
+//             .then(() => {
+//                 console.log("IT WORKED AGAIN, AGAIN!!! ALL DATA RETRIEVED!!!");
+//             }).catch(() => {
+//                 console.log("OH NO, ERROR!!! (3rd request)");
+//             });
+//         }).catch(() => {
+//             console.log("OH NO, ERROR!!! (2nd request)");
+//         });
+//     }).catch(() => {
+//         console.log("OH NO, ERROR!!!");
+//     });
+
+
+// Syntax above with callback hell removed and promises incorporated!!!
 fakeRequestPromise('goodreads.com/api/fantasyreadinglist/page1')
-    .then(() => {
-        console.log("IT WORKED!!!");        
-        fakeRequestPromise('goodreads.com/api/fantasyreadinglist/page2')
-        .then(() => {
-            console.log("IT WORKED AGAIN!!!");            
-            fakeRequestPromise('goodreads.com/api/fantasyreadinglist/page3')
-            .then(() => {
-                console.log("IT WORKED AGAIN, AGAIN!!! ALL DATA RETRIEVED!!!");
-            }).catch(() => {
-                console.log("OH NO, ERROR!!! (3rd request)");
-            });
-        }).catch(() => {
-            console.log("OH NO, ERROR!!! (2nd request)");
-        });
-    }).catch(() => {
-        console.log("OH NO, ERROR!!!");
-    });
+.then((data) => {
+    console.log("IT WORKED!");       
+    console.log(data);
+    return fakeRequestPromise('goodreads.com/api/fantasyreadinglist/page2')
+})
+.then((data) => {
+    console.log("IT WORKED AGAIN!!");
+    console.log(data);      
+    return fakeRequestPromise('goodreads.com/api/fantasyreadinglist/page3')
+})
+.then((data) => {
+    console.log("IT WORKED AGAIN, AGAIN!!! ALL DATA RETRIEVED!!!");
+    console.log(data);
+})
+.catch((err) => {
+    console.log("OH NO, AN ERROR HAS OCCURRED!!!");
+    console.log(err);
+})
