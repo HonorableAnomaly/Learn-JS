@@ -90,8 +90,15 @@ const fakeRequestPromise = (url) => {
   });
 };
 
-// async function to call fakeRequestPromise
+// async function to call fakeRequestPromise with a try catch included that will run trys until it catches an error in a rejected promise
 async function makeTwoRequests() {
-  let data1 = await fakeRequestPromise("/page1");
-  console.log(data1);
+  try {
+    let data1 = await fakeRequestPromise("/page1");
+    console.log(data1);
+    let data2 = await fakeRequestPromise("/page2");
+    console.log(data2);
+  } catch (e) {
+    console.log("CAUGHT AN ERROR!");
+    console.log("Error is:", e);
+  }
 }
