@@ -79,30 +79,30 @@
 // DO NOT USE ARROW FUNCTIONS WITH KEYWORD THIS!!!
 
 // Constructor function for rgb colors
-function Color(r, g, b) {
-  this.r = r;
-  this.g = g;
-  this.b = b;
-}
+// function Color(r, g, b) {
+//   this.r = r;
+//   this.g = g;
+//   this.b = b;
+// }
 
-// rgb added to prototype on Color constructor
-Color.prototype.rgb = function () {
-  const { r, g, b } = this;
-  return `rgb(${r}, ${g}, ${b})`;
-};
+// // rgb added to prototype on Color constructor
+// Color.prototype.rgb = function () {
+//   const { r, g, b } = this;
+//   return `rgb(${r}, ${g}, ${b})`;
+// };
 
-// hex added to prototype on Color constructor
-Color.prototype.hex = function () {
-  const { r, g, b } = this;
-  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-};
+// // hex added to prototype on Color constructor
+// Color.prototype.hex = function () {
+//   const { r, g, b } = this;
+//   return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+// };
 
-// rgba added to prototype on Color constructor
-Color.prototype.rgba = function (a = 1.0) {
-  const { r, g, b } = this;
-  return `rgba(${r}, ${g}, ${b}, ${a})`;
-};
+// // rgba added to prototype on Color constructor
+// Color.prototype.rgba = function (a = 1.0) {
+//   const { r, g, b } = this;
+//   return `rgba(${r}, ${g}, ${b}, ${a})`;
+// };
 
-// These two different colors now have tthe same strictly equal hex property, because it's in the prototype and not on the actual object!
-const color1 = new Color(40, 150, 60);
-const color2 = new Color(140, 150, 60);
+// // These two different colors now have tthe same strictly equal hex property, because it's in the prototype and not on the actual object!
+// const color1 = new Color(40, 150, 60);
+// const color2 = new Color(140, 150, 60);
