@@ -106,3 +106,60 @@
 // // These two different colors now have tthe same strictly equal hex property, because it's in the prototype and not on the actual object!
 // const color1 = new Color(40, 150, 60);
 // const color2 = new Color(140, 150, 60);
+
+// Keyword class used to combine the code that we did above
+class Color {
+  constructor(r, g, b, name) {
+    this.r = r;
+    this.g = g;
+    this.b = b;
+    this.name = name;
+  }
+  // Refactored to make the rgb use within the class easier
+  innerRGB() {
+    const { r, g, b } = this;
+    return `${r}, ${g}, ${b}`;
+  }
+  rgb() {
+    return `rgb(${this.innerRGB()})`;
+  }
+  rgba(a = 1.0) {
+    return `rgba(${this.innerRGB()}, ${a})`;
+  }
+  hex() {
+    const { r, g, b } = this;
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  }
+  // Copied from Stack Overflow to try to make hsl conversion work. Still working on it.
+  hsl() {
+    const { r, g, b } = this;
+    // (r /= 255), (g /= 255), (b /= 255);
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const { h, s, l } = (max + min) / 2;
+
+    if (max === min) {
+      h = s = 0; // achromatic
+    } else {
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r:
+          h = (g - b) / d + (g < b ? 6 : 0);
+          break;
+        case g:
+          h = (b - r) / d + 2;
+          break;
+        case b:
+          h = (r - g) / d + 4;
+          break;
+      }
+      h /= 6;
+    }
+    return `hsl(${h}, ${s}%, ${l}%)`;
+  }
+}
+
+const c1 = new Color(234, 150, 65, "Tangerine");
+const c2 = new Color(255, 190, 11, "Banana");
+const c3 = new Color(2, 62, 138, "Blueberry");
