@@ -30,10 +30,6 @@
 //     return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 //   }
 // }
-// const red = new Color(255, 67, 89, "tomato");
-// const white = new Color(255, 255, 255, "white");
-// const navColor = new Color("carrot", [230, 126, 34]);
-// const logoColor = new Color("emerald", [46, 204, 113]);
 
 // Color types
 // ("rgb(230, 34, 87)");
@@ -114,6 +110,7 @@ class Color {
     this.g = g;
     this.b = b;
     this.name = name;
+    this.calcHSL();
   }
   // Refactored to make the rgb use within the class easier
   innerRGB() {
@@ -132,34 +129,65 @@ class Color {
   }
   // Copied from Stack Overflow to try to make hsl conversion work. Still working on it.
   hsl() {
-    const { r, g, b } = this;
-    // (r /= 255), (g /= 255), (b /= 255);
-    const max = Math.max(r, g, b);
-    const min = Math.min(r, g, b);
-    const { h, s, l } = (max + min) / 2;
-
-    if (max === min) {
-      h = s = 0; // achromatic
-    } else {
-      const d = max - min;
-      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-      switch (max) {
-        case r:
-          h = (g - b) / d + (g < b ? 6 : 0);
-          break;
-        case g:
-          h = (b - r) / d + 2;
-          break;
-        case b:
-          h = (r - g) / d + 4;
-          break;
-      }
-      h /= 6;
-    }
+    const { h, s, l } = this;
     return `hsl(${h}, ${s}%, ${l}%)`;
+  }
+  contrast() {
+    const { h, s, l } = this;
+    const newHue = (h + 180) % 360;
+    return `hsl(${newHue}, ${s}%, ${l}%)`;
+  }
+  fullSaturation() {
+    const { h, l } = this;
+    return `hsl(${h}, 100%, ${l}%)`;
+  }
+  calcHSL() {
+    let { r, g, b } = this;
+    // Make rgb fractions of 1
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    // Find greatest and smallest channel values
+    let cmin = Math.min(r, g, b),
+      cmax = Math.max(r, g, b),
+      delta = cmax - cmin,
+      h = 0,
+      s = 0,
+      l = 0;
+
+    if (delta == 0) h = 0;
+    else if (cmax == r)
+      // Red is max
+      h = ((g - b) / delta) % 6;
+    else if (cmax == g)
+      // Green is max
+      h = (b - r) / delta + 2;
+    // Blue is max
+    else h = (r - g) / delta + 4;
+
+    h = Math.round(h * 60);
+
+    // Make negative hues positive behind 360 degrees
+    if (h < 0) h += 360;
+
+    // Calculate lightness
+    l = (cmax + cmin) / 2;
+
+    // Calculate saturation
+    s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+
+    // Multiply l and s by 100
+    s = +(s * 100).toFixed(1);
+    l = +(l * 100).toFixed(1);
+    this.h = h;
+    this.s = s;
+    this.l = l;
   }
 }
 
 const c1 = new Color(234, 150, 65, "Tangerine");
 const c2 = new Color(255, 190, 11, "Banana");
 const c3 = new Color(2, 62, 138, "Blueberry");
+const red = new Color(255, 67, 89, "Tomato");
+const white = new Color(255, 255, 255, "White");
