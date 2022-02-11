@@ -191,3 +191,38 @@ const c2 = new Color(255, 190, 11, "Banana");
 const c3 = new Color(2, 62, 138, "Blueberry");
 const red = new Color(255, 67, 89, "Tomato");
 const white = new Color(255, 255, 255, "White");
+
+//
+//
+// Basic class structure to demo keywords extends and super
+class Pet {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+  eat() {
+    return `${this.name} is eating!`;
+  }
+}
+
+// Extends looks to the extended class for constructor and methods if unavailable in the current class
+class Cat extends Pet {
+  constructor(name, age, livesLeft = 9) {
+    // Keyword super references arguments from the super class that was extended
+    super(name, age);
+    this.livesLeft = livesLeft;
+  }
+  meow() {
+    return "Meooowww!";
+  }
+}
+
+class Dog extends Pet {
+  woof() {
+    return "Wooooof!";
+  }
+  // This eat would be used rather than Pet's version of the method because it checks here first
+  eat() {
+    return `${this.name} scarfs his food!!!`;
+  }
+}
