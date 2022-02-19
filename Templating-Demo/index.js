@@ -14,7 +14,9 @@ app.get("/", (req, res) => {
 });
 
 app.get("/rand", (req, res) => {
-  res.render("random");
+  const num = Math.floor(Math.random() * 10) + 1;
+  // res.render("random", { rand: num });  // This object gets passed to the ejs template and the key value pair can be combined into one variable name, like below
+  res.render("random", { num });
 });
 
 app.listen(3000, () => {
