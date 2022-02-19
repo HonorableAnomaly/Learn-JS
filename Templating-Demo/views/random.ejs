@@ -10,5 +10,8 @@
     <!-- When incorporating ejs syntax, it should be as dumb as possible. The logic below will be moved to the index.js file and then pass it back here.  -->
     <!-- <h1>Your random number is: <%= Math.floor(Math.random() * 10) + 1 %></h1> -->
     <h1>Your random number is: <%= num %></h1>
+    <% if (num % 2 === 0) { %>
+    <h2>That is an even number!</h2>
+    <% } %>
   </body>
 </html>
