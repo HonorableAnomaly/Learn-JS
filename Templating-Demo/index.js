@@ -13,6 +13,11 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
+app.get("/r/:subreddit", (req, res) => {
+  const { subreddit } = req.params;
+  res.render("subreddit", { subreddit });
+});
+
 app.get("/rand", (req, res) => {
   const num = Math.floor(Math.random() * 10) + 1;
   // res.render("random", { rand: num });  // This object gets passed to the ejs template and the key value pair can be combined into one variable name, like below
