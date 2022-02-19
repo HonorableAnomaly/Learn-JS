@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 // A directory inside of express
 const path = require("path");
+// Requiring a JSON file
+const redditData = require("./data.json");
 
 app.set("view engine", "ejs");
 // Used to make the path to the views dir available from running our server anywhere, even outside of the dir where the folder is at.
@@ -20,7 +22,12 @@ app.get("/pokemon", (req, res) => {
 
 app.get("/r/:subreddit", (req, res) => {
   const { subreddit } = req.params;
-  res.render("subreddit", { subreddit });
+  const data = redditData[subreddit];
+  if (data) {
+    res.render("subreddit", { ...data });
+  } else {
+    res.render("notfound", { subreddit });
+  }
 });
 
 app.get("/rand", (req, res) => {
