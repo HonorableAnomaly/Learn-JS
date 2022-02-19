@@ -13,6 +13,11 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
+app.get("/pokemon", (req, res) => {
+  const pokemon = ["Bulbasaur", "Charizard", "Mewtwo", "Pikachu", "Dragonite", "Gyarados"];
+  res.render("pokemon", { pokemon });
+});
+
 app.get("/r/:subreddit", (req, res) => {
   const { subreddit } = req.params;
   res.render("subreddit", { subreddit });
