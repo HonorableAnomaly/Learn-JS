@@ -10,7 +10,7 @@ app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-const comments = [
+let comments = [
   {
     id: uuid(),
     username: "Ricky",
@@ -71,11 +71,10 @@ app.get("/comments/:id/edit", (req, res) => {
   res.render("comments/edit", { comment });
 });
 
-app.delete("/comments/:id/delete", (req, res) => {
-  res.send("Comment deleted!");
-  // const { id } = req.params;
-  // const comment = comments.find((c) => c.id === id);
-  // res.render("comments/delete", { comment });
+app.delete("/comments/:id", (req, res) => {
+  const { id } = req.params;
+  comments = comments.filter((c) => c.id !== id);
+  res.redirect("/comments");
 });
 
 // Basic get and post
