@@ -45,14 +45,55 @@ const productSchema = new mongoose.Schema({
   },
 });
 
-productSchema.methods.greet = function () {
-  console.log("HELLLO!! HI! HOWDY!!!");
+//
+// Custom method to have a searched product greet us
+// productSchema.methods.greet = function () {
+//   console.log("HELLLO!! HI! HOWDY!!!");
+//   console.log(`- from ${this.name}`);
+// };
+
+// Custom method to toggle a product to be on sale
+// productSchema.methods.toggleOnSale = function () {
+//   this.onSale = !this.onSale;
+//   return this.save();
+// };
+
+productSchema.methods.addCategory = function (newCat) {
+  this.categories.push(newCat);
+  return this.save();
 };
 
 // Model class that allows for the creation of new instances of products that can be saved to the database
 // When called, creates an instance of the class and creates the collection in the database
 const Product = mongoose.model("Product", productSchema);
 
+//
+// Product search and calling greet method
+// const findProduct = async () => {
+//   const foundProduct = await Product.findOne({ name: "Gloves" });
+//   foundProduct.greet();
+// };
+
+// Toggle sale function that goes with the method
+// const findProduct = async () => {
+//   const foundProduct = await Product.findOne({ name: "Gloves" });
+//   console.log(foundProduct);
+//   await foundProduct.toggleOnSale();
+//   console.log(foundProduct);
+// };
+
+// Add category to product
+const findProduct = async () => {
+  const foundProduct = await Product.findOne({ name: "Gloves" });
+  console.log(foundProduct);
+  await foundProduct.addCategory("Outdoors");
+  console.log(foundProduct);
+};
+
+// Calls the product for the above methods and functions
+findProduct();
+
+//
 // Creating a product
 //
 // const bikeProduct = new Product({ name: "Cycling Jersey", price: 28.5, categories: ["cycling", "clothing"], size: "M" });
