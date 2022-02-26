@@ -58,11 +58,18 @@ const productSchema = new mongoose.Schema({
 //   return this.save();
 // };
 
-productSchema.methods.addCategory = function (newCat) {
-  this.categories.push(newCat);
-  return this.save();
+// Custom method to add a category to a product
+// productSchema.methods.addCategory = function (newCat) {
+//   this.categories.push(newCat);
+//   return this.save();
+// };
+
+// Static method to toggle onSale to all products and set their price to free
+productSchema.statics.fireSale = function () {
+  return this.updateMany({}, { onSale: true, price: 0 });
 };
 
+//
 // Model class that allows for the creation of new instances of products that can be saved to the database
 // When called, creates an instance of the class and creates the collection in the database
 const Product = mongoose.model("Product", productSchema);
@@ -83,15 +90,18 @@ const Product = mongoose.model("Product", productSchema);
 // };
 
 // Add category to product
-const findProduct = async () => {
-  const foundProduct = await Product.findOne({ name: "Gloves" });
-  console.log(foundProduct);
-  await foundProduct.addCategory("Outdoors");
-  console.log(foundProduct);
-};
+// const findProduct = async () => {
+//   const foundProduct = await Product.findOne({ name: "Gloves" });
+//   console.log(foundProduct);
+//   await foundProduct.addCategory("Outdoors");
+//   console.log(foundProduct);
+// };
+
+// Callback for fireSale
+Product.fireSale().then((res) => console.log(res));
 
 // Calls the product for the above methods and functions
-findProduct();
+// findProduct();
 
 //
 // Creating a product
