@@ -1,4 +1,4 @@
-// Requiring mongoose and database connection
+// Requiring mongoose and database connection for bike shop
 const mongoose = require("mongoose");
 mongoose
   .connect("mongodb://localhost:27017/shopApp")
@@ -10,32 +10,72 @@ mongoose
     console.log(err);
   });
 
-//  Mongoose schema setup for database
+//  Mongoose schema setup for product database
 const productSchema = new mongoose.Schema({
   name: {
     //  Type is the default if making a short-hand line for the key value pairs
     type: String,
     required: true,
+    maxlength: 20,
   },
   price: {
     type: Number,
+    required: true,
+    min: [0, "Price must be a positive number"],
   },
   color: String,
+  onSale: {
+    type: Boolean,
+    default: false,
+  },
+  categories: [String],
+  qty: {
+    online: {
+      type: Number,
+      default: 0,
+    },
+    inStore: {
+      type: Number,
+      default: 0,
+    },
+  },
+  size: {
+    type: String,
+    enum: ["S", "M", "L", "XL", "XXL"],
+  },
 });
 
-// Model class that allows for the creation of new instances of the class that can be saved to the database
+productSchema.methods.greet = function () {
+  console.log("HELLLO!! HI! HOWDY!!!");
+};
+
+// Model class that allows for the creation of new instances of products that can be saved to the database
 // When called, creates an instance of the class and creates the collection in the database
 const Product = mongoose.model("Product", productSchema);
 
-// First db object
-const bike = new Product({ name: "Kantonia" }, { price: 1000000 }, { color: "blue" });
-bike
-  .save()
-  .then((data) => {
-    console.log("Bike saved!");
-    console.log(data);
-  })
-  .catch((err) => {
-    console.log("Oh no! An error has occurred!");
-    console.log(err);
-  });
+// Creating a product
+//
+// const bikeProduct = new Product({ name: "Cycling Jersey", price: 28.5, categories: ["cycling", "clothing"], size: "M" });
+// bikeProduct
+//   .save()
+//   .then((data) => {
+//     console.log("Product saved!");
+//     console.log(data);
+//   })
+//   .catch((err) => {
+//     console.log("Oh no! An error has occurred!");
+//     console.log(err);
+//   });
+
+//
+// Updating a product
+//
+// Product.findOneAndUpdate({ name: "Tire Pump" }, { price: -21.99 }, { new: true, runValidators: true })
+//   .then((data) => {
+//     console.log("Product updated!");
+//     console.log(data);
+//   })
+//   .catch((err) => {
+//     console.log("Oh no! An error has occurred!");
+//     console.log(err);
+//   });
