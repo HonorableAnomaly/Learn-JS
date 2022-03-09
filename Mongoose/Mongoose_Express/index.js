@@ -22,7 +22,7 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
-const categories = ["fruit", "vegetable", "dairy", "baked goods", "fungi"];
+const categories = ["fruit", "vegetable", "dairy", "fungi", "baked goods"];
 
 app.get("/products", async (req, res) => {
   const products = await Product.find({});
@@ -55,6 +55,12 @@ app.put("/products/:id", async (req, res) => {
   const { id } = req.params;
   const product = await Product.findByIdAndUpdate(id, req.body, { runValidators: true, new: true });
   res.render("products/show", { product });
+});
+
+app.delete("/products/:id", async (req, res) => {
+  const { id } = req.params;
+  const deletedProduct = await Product.findByIdAndDelete(id);
+  res.redirect("/products");
 });
 
 app.listen(3000, () => {
