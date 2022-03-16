@@ -17,6 +17,15 @@ app.use("/dogs", (req, res, next) => {
   next();
 });
 
+// Defining a middleware to be used as a function on another middleware
+const verifyPassword = (req, res, next) => {
+  const { password } = req.query;
+  if (password === "chickennugget") {
+    next();
+  }
+  res.send("SORRY, YOU NEED A PASSWORD!");
+};
+
 // Demo middleware
 // app.use((req, res, next) => {
 //   console.log("THIS IS MY FIRST MIDDLEWARE!");
@@ -42,6 +51,11 @@ app.get("/", (req, res) => {
 app.get("/dogs", (req, res) => {
   console.log(`REQUEST TIME: ${req.requestTime}`);
   res.send("WOOF WOOF!");
+});
+
+// Using verifyPassword middleware in the arguments
+app.get("/secret", verifyPassword, (req, res, next) => {
+  res.send("MY SECRET IS: I REALLY LIKE POKéMON!");
 });
 
 // Last ditch response if nothing else works
