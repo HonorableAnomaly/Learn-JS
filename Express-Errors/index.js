@@ -23,7 +23,8 @@ const verifyPassword = (req, res, next) => {
   if (password === "chickennugget") {
     next();
   }
-  res.send("SORRY, YOU NEED A PASSWORD!");
+  // res.send("SORRY, YOU NEED A PASSWORD!");
+  throw new AppError(401, "UH OH! ERROR!");
 };
 
 // Demo middleware
@@ -48,6 +49,10 @@ app.get("/", (req, res) => {
   res.send("HOME PAGE!");
 });
 
+app.get("/error", (req, res) => {
+  chicken.fly();
+});
+
 app.get("/dogs", (req, res) => {
   console.log(`REQUEST TIME: ${req.requestTime}`);
   res.send("WOOF WOOF!");
@@ -61,6 +66,19 @@ app.get("/secret", verifyPassword, (req, res, next) => {
 // Last ditch response if nothing else works
 app.use((req, res) => {
   res.status(404).send("Whatever you may be seeking, we know it isn't that. We don't have any of that.");
+});
+
+// Error handlers must be last!
+app.use((err, req, res, next) => {
+  console.log("**************************************");
+  console.log("**************ERROR*******************");
+  console.log("**************************************");
+  console.log(err);
+  // One option for error handling
+  // res.status(500).send("OH BOY, AN ERROR!");
+  //
+  // Calls the next error-handling middleware
+  next(err);
 });
 
 app.listen(3000, () => {
