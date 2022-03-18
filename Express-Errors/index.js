@@ -85,6 +85,7 @@ app.use((req, res) => {
 //   res.status(status).send(message);
 // });
 
+// Using status and message from the AppError class to display
 app.use((err, req, res, next) => {
   const { status = 500, message = "ERROOORORRRRR!!!" } = err;
   res.status(status).send(message);
