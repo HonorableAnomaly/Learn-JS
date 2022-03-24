@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    // Custom error handling string added to required property
+    required: [true, "Name cannot be blank"],
   },
   price: {
     type: Number,

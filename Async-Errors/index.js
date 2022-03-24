@@ -131,6 +131,20 @@ app.delete(
   })
 );
 
+// Variable function for returning errors
+const handleValidationErr = (err) => {
+  console.dir(err);
+  return new AppError(400, `Validation failed...${err.message}`);
+};
+
+// Error logger to get Mongoose to display the type of error handled
+app.use((err, req, res, next) => {
+  console.log(err.name);
+  // Specific type of error handled
+  if (err.name === "Validation Error") err = handleValidationErr(err);
+  next();
+});
+
 app.use((err, req, res, next) => {
   const { status = 500, message = "Error!" } = err;
   res.status(status).send(message);
