@@ -25,11 +25,17 @@ app.use(methodOverride("_method"));
 
 const categories = ["fruit", "vegetable", "dairy", "fungi", "baked goods"];
 
+// Error handling using variable async (separate function written for variable async and then called in the apps)
+function wrapAsync(fn) {
+  return function (req, res, next) {
+    fn(req, res, next).catch((e) => next(e));
+  };
+}
+
 // Added argument 'next' for error handling
-app.get("/products", async (req, res, next) => {
-  // Error handling
-  try {
-    //
+app.get(
+  "/products",
+  wrapAsync(async (req, res, next) => {
     const { category } = req.query;
     if (category) {
       const products = await Product.find({ category });
@@ -38,12 +44,8 @@ app.get("/products", async (req, res, next) => {
       const products = await Product.find({});
       res.render("products/index", { products, category: "All" });
     }
-    // Error handling
-  } catch (e) {
-    next(e);
-  }
-  //
-});
+  })
+);
 
 app.get("/products/new", (req, res) => {
   // Error handling
@@ -52,25 +54,19 @@ app.get("/products/new", (req, res) => {
   res.render("products/new", { categories });
 });
 
-app.post("/products", async (req, res, next) => {
-  // Error handling
-  try {
-    //
+app.post(
+  "/products",
+  wrapAsync(async (req, res, next) => {
     const newProduct = new Product(req.body);
     await newProduct.save();
     res.redirect(`/products/${newProduct._id}`);
-    // Error handling
-  } catch (e) {
-    next(e);
-  }
-  //
-});
+  })
+);
 
 // BROKEN async error handling methods in Express 5, wrapped in Try Catch that works
-app.get("/products/:id", async (req, res, next) => {
-  // Error handling
-  try {
-    //
+app.get(
+  "/products/:id",
+  wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const product = await Product.findById(id);
     // Error handling (BROKEN in Express 5)
@@ -78,65 +74,62 @@ app.get("/products/:id", async (req, res, next) => {
       // return next(new AppError(404, "Product Not Found"));
       throw new AppError(404, "Product Not Found");
     }
-    //
     res.render("products/show", { product });
-    // Error handling
-  } catch (e) {
-    next(e);
-  }
-  //
-});
+  })
+);
 
-app.get("/products/:id/edit", async (req, res, next) => {
-  // Error handling
-  try {
-    //
+// app.get("/products/:id/edit", async (req, res, next) => {
+//   // Error handling
+//   try {
+//     //
+//     const { id } = req.params;
+//     const product = await Product.findById(id);
+//     // Error handling (BROKEN in Express 5)
+//     if (!product) {
+//       // return next(new AppError(404, "Product Not Found"));
+//       throw new AppError(404, "Product Not Found");
+//     }
+//     //
+//     res.render("products/edit", { product, categories });
+//     // Error handling
+//   } catch (e) {
+//     next(e);
+//   }
+//   //
+// });
+
+app.get(
+  "/products/:id/edit",
+  wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const product = await Product.findById(id);
-    // Error handling (BROKEN in Express 5)
     if (!product) {
-      // return next(new AppError(404, "Product Not Found"));
       throw new AppError(404, "Product Not Found");
     }
-    //
     res.render("products/edit", { product, categories });
-    // Error handling
-  } catch (e) {
-    next(e);
-  }
-  //
-});
+  })
+);
 
 //
 //
 
-app.put("/products/:id", async (req, res, next) => {
-  // Error handling
-  try {
-    //
+app.put(
+  "/products/:id",
+  wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const product = await Product.findByIdAndUpdate(id, req.body, { runValidators: true, new: true });
     res.render("products/show", { product });
-    // Error handling
-  } catch (e) {
-    next(e);
-  }
-  //
-});
+  })
+);
 
-app.delete("/products/:id", async (req, res, next) => {
-  // Error handling
-  try {
-    //
+app.delete(
+  "/products/:id",
+  wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const deletedProduct = await Product.findByIdAndDelete(id);
     res.redirect("/products");
-    // Error handling
-  } catch (e) {
-    next(e);
-  }
-  //
-});
+  })
+);
 
 app.use((err, req, res, next) => {
   const { status = 500, message = "Error!" } = err;
