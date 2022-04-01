@@ -69,4 +69,8 @@ const addProduct = async () => {
   console.log(farm);
 };
 
-addProduct();
+// addProduct();
+
+Farm.findOne({ name: "Wildomar Farms" })
+  .populate("products")
+  .then((farm) => console.log(farm));
