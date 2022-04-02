@@ -11,7 +11,7 @@ const Farm = require("./models/farm");
 mongoose
   .connect("mongodb://localhost:27017/farmStandDemoApp")
   .then(() => {
-    console.log("MONGO CONNECTION OPEN!");
+    console.log("MONGO CONNECTION OPEN...");
   })
   .catch((err) => {
     console.log("OH NO! MONGO CONNECTION ERROR!");
