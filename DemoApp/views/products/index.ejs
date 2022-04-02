@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inventory</title>
+    <title>Your Inventory</title>
   </head>
   <body>
     <h1><%=category%> Inventory</h1>
@@ -15,8 +15,6 @@
       <% } %>
     </ul>
     <a href="/products/new">Add Product</a>
-    <% if(category !== "All") { %>
-    <a href="/products">All Inventory</a>
-    <% } %>
+    <a href="/farms">Farms</a>
   </body>
 </html>

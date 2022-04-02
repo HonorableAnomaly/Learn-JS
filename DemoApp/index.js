@@ -47,9 +47,75 @@ app.post(
   })
 );
 
+app.get(
+  "/farms/:id",
+  wrapAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const farm = await Farm.findById(id).populate("products");
+    if (!farm) {
+      throw new AppError(404, "Farm Not Found");
+    }
+    res.render("farms/show", { farm });
+  })
+);
+
+app.get(
+  "/farms/:id/products/new",
+  wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    const farm = await Farm.findById(id);
+    res.render("products/new", { categories, farm });
+  })
+);
+
+app.post(
+  "/farms/:id/products",
+  wrapAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const farm = await Farm.findById(id);
+    const { name, price, category } = req.body;
+    const product = new Product({ name, price, category });
+    farm.products.push(product);
+    product.farm = farm;
+    await farm.save();
+    await product.save();
+    res.redirect(`/farms/${id}`);
+  })
+);
+
+app.get(
+  "/farms/:id/edit",
+  wrapAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const farm = await Farm.findById(id);
+    if (!farm) {
+      throw new AppError(404, "Farm Not Found");
+    }
+    res.render("farms/edit", { farm });
+  })
+);
+
+app.put(
+  "/farms/:id",
+  wrapAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const farm = await Farm.findByIdAndUpdate(id, req.body, { runValidators: true, new: true });
+    res.render("farms/show", { farm });
+  })
+);
+
+app.delete(
+  "/farms/:id",
+  wrapAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const deletedFarm = await Farm.findByIdAndDelete(id);
+    res.redirect("/farms");
+  })
+);
+
 // ***PRODUCT ROUTES***
 //
-const categories = ["fruit", "vegetable", "dairy", "fungi", "baked goods"];
+const categories = ["fruit", "vegetable", "dairy", "fungi", "protein", "baked goods"];
 
 function wrapAsync(fn) {
   return function (req, res, next) {
