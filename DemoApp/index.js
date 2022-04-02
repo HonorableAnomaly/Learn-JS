@@ -6,9 +6,10 @@ const methodOverride = require("method-override");
 const AppError = require("./AppError");
 
 const Product = require("./models/product");
+const Farm = require("./models/farm");
 
 mongoose
-  .connect("mongodb://localhost:27017/farmStand2")
+  .connect("mongodb://localhost:27017/farmStandDemoApp")
   .then(() => {
     console.log("MONGO CONNECTION OPEN!");
   })
@@ -23,16 +24,39 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
+// ***FARM ROUTES***
+//
+app.get(
+  "/farms",
+  wrapAsync(async (req, res, next) => {
+    const farms = await Farm.find({});
+    res.render("farms/index", { farms });
+  })
+);
+
+app.get("/farms/new", (req, res) => {
+  res.render("farms/new");
+});
+
+app.post(
+  "/farms",
+  wrapAsync(async (req, res, next) => {
+    const newFarm = new Farm(req.body);
+    await newFarm.save();
+    res.redirect("/farms");
+  })
+);
+
+// ***PRODUCT ROUTES***
+//
 const categories = ["fruit", "vegetable", "dairy", "fungi", "baked goods"];
 
-// Error handling using variable async (separate function written for variable async and then called in the apps)
 function wrapAsync(fn) {
   return function (req, res, next) {
     fn(req, res, next).catch((e) => next(e));
   };
 }
 
-// Added argument 'next' for error handling
 app.get(
   "/products",
   wrapAsync(async (req, res, next) => {
@@ -48,9 +72,6 @@ app.get(
 );
 
 app.get("/products/new", (req, res) => {
-  // Error handling
-  // throw new AppError(401, "NOT ALLOWED!");
-  //
   res.render("products/new", { categories });
 });
 
@@ -63,40 +84,17 @@ app.post(
   })
 );
 
-// BROKEN async error handling methods in Express 5, wrapped in Try Catch that works
 app.get(
   "/products/:id",
   wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const product = await Product.findById(id);
-    // Error handling (BROKEN in Express 5)
     if (!product) {
-      // return next(new AppError(404, "Product Not Found"));
       throw new AppError(404, "Product Not Found");
     }
     res.render("products/show", { product });
   })
 );
-
-// app.get("/products/:id/edit", async (req, res, next) => {
-//   // Error handling
-//   try {
-//     //
-//     const { id } = req.params;
-//     const product = await Product.findById(id);
-//     // Error handling (BROKEN in Express 5)
-//     if (!product) {
-//       // return next(new AppError(404, "Product Not Found"));
-//       throw new AppError(404, "Product Not Found");
-//     }
-//     //
-//     res.render("products/edit", { product, categories });
-//     // Error handling
-//   } catch (e) {
-//     next(e);
-//   }
-//   //
-// });
 
 app.get(
   "/products/:id/edit",
@@ -109,9 +107,6 @@ app.get(
     res.render("products/edit", { product, categories });
   })
 );
-
-//
-//
 
 app.put(
   "/products/:id",
@@ -131,16 +126,13 @@ app.delete(
   })
 );
 
-// Variable function for returning errors
 const handleValidationErr = (err) => {
   console.dir(err);
   return new AppError(400, `Validation failed...${err.message}`);
 };
 
-// Error logger to get Mongoose to display the type of error handled
 app.use((err, req, res, next) => {
   console.log(err.name);
-  // Specific type of error handled
   if (err.name === "Validation Error") err = handleValidationErr(err);
   next();
 });
