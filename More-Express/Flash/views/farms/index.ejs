@@ -7,6 +7,8 @@
     <title>All Farms</title>
   </head>
   <body>
+    <!-- Displaying Flash here, would normally be separated into a partials view to be accessed across all templates -->
+    <%=messages%>
     <h1>All Farms</h1>
 
     <ul>
@@ -15,5 +17,6 @@
       <% } %>
     </ul>
     <a href="/products">Your Inventory</a>
+    <a href="/farms/new">Add a Farm</a>
   </body>
 </html>

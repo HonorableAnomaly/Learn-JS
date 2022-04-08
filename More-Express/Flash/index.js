@@ -4,12 +4,20 @@ const path = require("path");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const AppError = require("./AppError");
+const session = require("express-session");
+// Flash required here
+const flash = require("connect-flash");
+
+const sessionOptions = { secret: "thisisnotagoodsecret", resave: false, saveUninitialized: false };
+app.use(session(sessionOptions));
+// Flash called here
+app.use(flash());
 
 const Product = require("./models/product");
 const Farm = require("./models/farm");
 
 mongoose
-  .connect("mongodb://localhost:27017/farmStandDemoApp")
+  .connect("mongodb://localhost:27017/farmStandFlash")
   .then(() => {
     console.log("MONGO CONNECTION OPEN...");
   })
@@ -26,11 +34,22 @@ app.use(methodOverride("_method"));
 
 // ***FARM ROUTES***
 //
+// Flash middleware!
+app.use((req, res, next) => {
+  res.locals.messages = req.flash("success");
+  next();
+});
+
 app.get(
   "/farms",
   wrapAsync(async (req, res, next) => {
     const farms = await Farm.find({});
-    res.render("farms/index", { farms });
+    // Messages for req.flash is then executed here to render the flash on this page after creation of a new farm (displayed on the show page)
+    // Messages is no longer needed when using middleware example for Flash
+    res.render("farms/index", {
+      farms,
+      // , messages: req.flash("success")
+    });
   })
 );
 
@@ -43,6 +62,8 @@ app.post(
   wrapAsync(async (req, res, next) => {
     const newFarm = new Farm(req.body);
     await newFarm.save();
+    // Flash is added here to add the data to the session
+    req.flash("success", "A new farm has sprouted!");
     res.redirect("/farms");
   })
 );
