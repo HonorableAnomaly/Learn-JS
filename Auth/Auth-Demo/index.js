@@ -24,6 +24,21 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: true }));
 
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+  const user = await User.findOne({ username });
+  const validPassword = await bcrypt.compare(password, user.password);
+  if (validPassword) {
+    res.send("Huzzah! Welcome!");
+  } else {
+    res.send("Nice try sucka!");
+  }
+});
+
 app.get("/", (req, res) => {
   res.send("THIS IS THE HOME PAGE!");
 });
