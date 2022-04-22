@@ -62,11 +62,18 @@ app.post("/register", async (req, res) => {
   res.redirect("/secret");
 });
 
+app.post("/logout", (req, res) => {
+  // Two options for killing sessions, first changes property to 'null' while 'destroy' deletes every property
+  req.session.user_id = null;
+  // req.session.destroy()
+  res.redirect("/login");
+});
+
 app.get("/secret", (req, res) => {
   if (!req.session.user_id) {
-    res.redirect("/login");
+    return res.redirect("/login");
   } else {
-    res.send("THIS IS SO SUPER SECRET!");
+    res.render("secret");
   }
 });
 
